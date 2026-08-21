@@ -14,11 +14,22 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
+  redis:
+    image: redis:8.2-alpine
+    command: ['redis-server', '--save', '', '--appendonly', 'no']
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 3s
+      retries: 20
   api:
     build: .
     env_file: .env
     environment:
       DATABASE_URL: postgresql://openfaq:openfaq@postgres:5432/openfaq
+      REDIS_URL: redis://redis:6379
       OLLAMA_BASE_URL: http://host.docker.internal:11434/v1
     ports:
       - '3000:3000'
@@ -28,6 +39,8 @@ services:
       - 'host.docker.internal:host-gateway'
     depends_on:
       postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     healthcheck:
       test:
