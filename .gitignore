@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+.cache/
+apps/web/dist/
+.env
+.env.*
+!.env.example
+knowledge/snapshots/runtime/
+knowledge/reports/runtime/
+*.log
+*.tsbuildinfo
+.DS_Store

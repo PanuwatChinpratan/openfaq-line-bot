@@ -1,0 +1,11 @@
+{
+  "events": [
+    {
+      "type": "message",
+      "webhookEventId": "sample-text-1",
+      "replyToken": "REDACTED",
+      "source": { "type": "user", "userId": "U_SAMPLE" },
+      "message": { "type": "text", "text": "สมัครยังไง" }
+    }
+  ]
+}

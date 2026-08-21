@@ -1,0 +1,11 @@
+{
+  "events": [
+    {
+      "type": "postback",
+      "webhookEventId": "sample-postback-1",
+      "replyToken": "REDACTED",
+      "source": { "type": "user", "userId": "U_SAMPLE" },
+      "postback": { "data": "action=faq_detail&faqId=returns.window" }
+    }
+  ]
+}

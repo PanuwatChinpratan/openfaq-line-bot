@@ -1,0 +1,54 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: openfaq
+      POSTGRES_PASSWORD: openfaq
+      POSTGRES_DB: openfaq
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U openfaq -d openfaq']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  api:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://openfaq:openfaq@postgres:5432/openfaq
+      OLLAMA_BASE_URL: http://host.docker.internal:11434/v1
+    ports:
+      - '3000:3000'
+    volumes:
+      - model_cache:/app/.cache/models
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://localhost:3000/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - '5173:80'
+    depends_on:
+      api:
+        condition: service_healthy
+volumes:
+  postgres_data:
+  model_cache:

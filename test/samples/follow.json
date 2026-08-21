@@ -1,0 +1,10 @@
+{
+  "events": [
+    {
+      "type": "follow",
+      "webhookEventId": "sample-follow-1",
+      "replyToken": "REDACTED",
+      "source": { "type": "user", "userId": "U_SAMPLE" }
+    }
+  ]
+}
