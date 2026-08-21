@@ -7,6 +7,7 @@
 - NestJS + TypeScript สำหรับ API และ LINE webhook
 - React + Vite สำหรับ Chat Demo และ Admin
 - PostgreSQL + Prisma + pgvector/pg_trgm สำหรับ FAQ และ hybrid search
+- Redis แบบ optional สำหรับ conversation TTL และ distributed rate limit
 - multilingual-e5-small สำหรับ embedding ในเครื่อง
 - Ollama + Qwen3 4B เป็น local AI แบบ optional
 - Biome สำหรับ format/lint/imports
@@ -19,7 +20,8 @@
 3. เพิ่ม public chat API, LINE webhook, Flex response, feedback และ persistent dedup
 4. เพิ่ม owner login และ CRUD/publish FAQ
 5. ทำ Chat Demo, Knowledge, Architecture และ Admin UI ตาม approved concepts
-6. เพิ่ม tests, CI, Docker, README และ security/license docs
+6. เพิ่ม optional Redis runtime พร้อม in-memory fallback
+7. เพิ่ม tests, CI, Docker, README และ security/license docs
 
 ## Done when
 
