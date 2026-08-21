@@ -7,6 +7,7 @@ import { FaqRepository } from '../src/modules/knowledge/repositories/faq.reposit
 import { RetrievalService } from '../src/modules/knowledge/retrieval/retrieval.service';
 import { STARTER_FAQS } from '../src/modules/knowledge/starter-data';
 import { answerFlex, mainMenuFlex, validateFlex } from '../src/modules/line/flex/flex.builders';
+import { parsePostback } from '../src/modules/line/handlers/postback.parser';
 
 const ai: AiProvider = {
   name: 'test',
@@ -70,5 +71,11 @@ describe('LINE Flex', () => {
     expect(validateFlex(mainMenuFlex())).toBe(true);
     const first = STARTER_FAQS[0];
     expect(first && validateFlex(answerFlex(first))).toBe(true);
+  });
+
+  test('accepts Thai FAQ category postbacks', () => {
+    expect(
+      parsePostback(`action=faq_category&category=${encodeURIComponent('การคืนสินค้า')}`),
+    ).toEqual({ action: 'faq_category', category: 'การคืนสินค้า', faqId: undefined });
   });
 });

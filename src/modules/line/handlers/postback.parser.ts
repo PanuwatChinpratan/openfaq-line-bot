@@ -15,7 +15,7 @@ export function parsePostback(data: string): PostbackAction | null {
   if (!parsed.success) return null;
   const category = params.get('category') ?? undefined;
   const faqId = params.get('faqId') ?? undefined;
-  if (category && !/^[a-z_]{1,80}$/.test(category)) return null;
+  if (category && !/^[\p{L}\p{M}\p{N}_ -]{1,80}$/u.test(category)) return null;
   if (faqId && !/^[a-z0-9._-]{1,120}$/i.test(faqId)) return null;
   if (parsed.data === 'faq_category' && !category) return null;
   if (parsed.data === 'faq_detail' && !faqId) return null;

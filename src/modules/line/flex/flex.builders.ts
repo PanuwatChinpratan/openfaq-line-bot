@@ -108,7 +108,7 @@ export function mainMenuFlex(): FlexMessage {
           label,
           category === 'contact_staff'
             ? 'action=contact_staff'
-            : `action=faq_category&category=${category}`,
+            : `action=faq_category&category=${encodeURIComponent(category)}`,
         ),
       ),
     ),
