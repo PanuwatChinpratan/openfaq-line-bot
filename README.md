@@ -2,7 +2,9 @@
 
 Open-source Thai FAQ assistant for LINE. It handles typos and paraphrases with hybrid retrieval, shows why an answer was selected, and never lets the LLM answer without approved context.
 
-![Chat demo](docs/design/chat-demo-concept.png)
+![OpenFAQ answering a real typo-tolerant shipping question in LINE](docs/design/line-production-chat-real.png)
+
+_Real LINE conversation with the deployed OpenFAQ Demo Bot._
 
 ## What it includes
 
