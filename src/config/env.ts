@@ -6,6 +6,7 @@ export const envSchema = z.object({
   LINE_CHANNEL_SECRET: z.string().default(''),
   LINE_CHANNEL_ACCESS_TOKEN: z.string().default(''),
   DATABASE_URL: z.string().default('postgresql://openfaq:openfaq@localhost:5432/openfaq'),
+  REDIS_URL: z.union([z.string().url(), z.literal('')]).default(''),
   PUBLIC_BASE_URL: z.string().default(''),
   AI_MODE: z.enum(['public-lite', 'local-ai']).default('public-lite'),
   OLLAMA_BASE_URL: z.string().url().default('http://localhost:11434/v1'),

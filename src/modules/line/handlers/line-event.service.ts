@@ -90,7 +90,7 @@ export class LineEventService {
         faq ? answerFlex(faq) : noticeFlex('ไม่พบข้อมูลที่เผยแพร่แล้ว', 'กรุณาติดต่อเจ้าหน้าที่'),
       ]);
     } else {
-      this.conversations.handoff(userId);
+      await this.conversations.handoff(userId);
       await this.reply.reply(token, [
         noticeFlex('ติดต่อเจ้าหน้าที่', 'ส่งเลขคำสั่งซื้อและรายละเอียดสั้น ๆ ไว้ได้เลย เจ้าหน้าที่จะรับช่วงต่อ'),
       ]);
@@ -98,16 +98,16 @@ export class LineEventService {
     return 'processed';
   }
   private async handleText(token: string, text: string, userId: string): Promise<'processed'> {
-    const current = this.conversations.get(userId);
+    const current = await this.conversations.get(userId);
     if (current?.status === 'handoff') {
       await this.reply.reply(token, [
         noticeFlex('อยู่ระหว่างส่งต่อเจ้าหน้าที่', 'ส่งรายละเอียดเพิ่มเติมไว้ได้ โดยไม่ต้องส่งรหัสผ่านหรือข้อมูลบัตร'),
       ]);
       return 'processed';
     }
-    this.conversations.add(userId, maskSensitive(text));
+    await this.conversations.add(userId, maskSensitive(text));
     const result = await this.retrieval.retrieve(text);
-    if (result.handoff) this.conversations.handoff(userId);
+    if (result.handoff) await this.conversations.handoff(userId);
     await this.reply.reply(token, [
       result.faq
         ? answerFlex(result.faq)

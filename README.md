@@ -13,7 +13,8 @@ _Real LINE conversation with the deployed OpenFAQ Demo Bot._
 - Public Lite mode with no API key
 - Optional local answers through Ollama + Qwen3 4B
 - React + Tailwind Chat Demo, knowledge viewer and owner-only FAQ editor
-- PostgreSQL, pgvector, Prisma, Docker and automated tests
+- PostgreSQL, pgvector, Prisma and optional Redis runtime state
+- Docker, automated tests and GitHub Actions
 - Biome for formatting and linting
 
 ## Quick start
@@ -36,6 +37,10 @@ For the containerized stack:
 ```bash
 docker compose up --build
 ```
+
+Docker Compose enables Redis for shared conversation TTLs and distributed rate limiting. A direct
+`npm run dev` keeps a process-local fallback unless `REDIS_URL` is set, so Redis is never required
+for Public Lite mode.
 
 ## How retrieval works
 
