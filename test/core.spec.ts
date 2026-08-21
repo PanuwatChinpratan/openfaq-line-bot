@@ -63,6 +63,12 @@ describe('FAQ retrieval', () => {
     expect(result.faq?.id).toBe('shipping.time');
     expect(result.confidence).toBe(1);
   });
+  test('answers a colloquial payment question without AI', async () => {
+    const result = await service.retrieve('ชำระเงินไง');
+    expect(result.mode).toBe('exact');
+    expect(result.faq?.id).toBe('payment.methods');
+    expect(result.answer).toContain('พร้อมเพย์');
+  });
   test('finds a typo with fuzzy search', () => {
     expect(repository.search('คืนสินค้าด้ายกี่วัน')[0]?.faq.id).toBe('returns.window');
   });
