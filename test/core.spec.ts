@@ -6,7 +6,12 @@ import type { AiProvider } from '../src/modules/ai/providers/ai-provider';
 import { FaqRepository } from '../src/modules/knowledge/repositories/faq.repository';
 import { RetrievalService } from '../src/modules/knowledge/retrieval/retrieval.service';
 import { STARTER_FAQS } from '../src/modules/knowledge/starter-data';
-import { answerFlex, mainMenuFlex, validateFlex } from '../src/modules/line/flex/flex.builders';
+import {
+  answerFlex,
+  categoryFlex,
+  mainMenuFlex,
+  validateFlex,
+} from '../src/modules/line/flex/flex.builders';
 import { parsePostback } from '../src/modules/line/handlers/postback.parser';
 
 const ai: AiProvider = {
@@ -77,5 +82,18 @@ describe('LINE Flex', () => {
     expect(
       parsePostback(`action=faq_category&category=${encodeURIComponent('การคืนสินค้า')}`),
     ).toEqual({ action: 'faq_category', category: 'การคืนสินค้า', faqId: undefined });
+  });
+
+  test('keeps Thai button labels complete and within LINE limits', () => {
+    const message = categoryFlex(
+      'การคืนสินค้า',
+      STARTER_FAQS.filter((faq) => faq.category === 'การคืนสินค้า'),
+    );
+    const footer = message.contents.footer as { contents: Array<Record<string, unknown>> };
+    const labels = footer.contents
+      .filter((item) => item.type === 'button')
+      .map((item) => (item.action as { label: string }).label);
+    expect(labels.every((label) => [...label].length <= 20)).toBe(true);
+    expect(labels.every((label) => !label.includes('\u200B'))).toBe(true);
   });
 });
