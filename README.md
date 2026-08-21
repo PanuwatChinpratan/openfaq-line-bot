@@ -80,6 +80,7 @@ npm run ai:smoke     # check Ollama when Local AI is enabled
 ```
 
 The concise implementation checklist lives in [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md).
+Deployment configuration and free-tier limitations are documented in [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ## Security
 

@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: openfaq-line-bot
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /ready
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: AI_MODE
+        value: public-lite
+      - key: EMBEDDING_PROVIDER
+        value: disabled
+      - key: AI_MAX_RETRIES
+        value: "0"
+      - key: DATABASE_URL
+        sync: false
+      - key: LINE_CHANNEL_SECRET
+        sync: false
+      - key: LINE_CHANNEL_ACCESS_TOKEN
+        sync: false
+      - key: ADMIN_PASSWORD
+        generateValue: true
+      - key: PUBLIC_BASE_URL
+        sync: false
