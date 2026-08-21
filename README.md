@@ -12,7 +12,7 @@ _Real LINE conversation with the deployed OpenFAQ Demo Bot._
 - Exact + fuzzy + multilingual vector search with RRF
 - Public Lite mode with no API key
 - Optional local answers through Ollama + Qwen3 4B
-- Chat Demo, knowledge viewer and owner-only FAQ editor
+- React + Tailwind Chat Demo, knowledge viewer and owner-only FAQ editor
 - PostgreSQL, pgvector, Prisma, Docker and automated tests
 - Biome for formatting and linting
 
