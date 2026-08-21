@@ -153,14 +153,14 @@ export class FaqRepository implements OnModuleInit {
   exact(question: string): StarterFaq | undefined {
     const query = normalizeThai(question);
     return this.approved.find((faq) =>
-      [faq.question, ...faq.variants].some((v) => normalizeThai(v) === query),
+      this.searchablePhrases(faq).some((phrase) => normalizeThai(phrase) === query),
     );
   }
   search(question: string, limit = 10): Array<{ faq: StarterFaq; score: number }> {
     const normalized = normalizeThai(question);
     return this.approved
       .map((faq) => {
-        const candidates = [faq.question, ...faq.variants];
+        const candidates = this.searchablePhrases(faq);
         const fuzzy = Math.max(...candidates.map((candidate) => similarity(normalized, candidate)));
         const terms = normalized.split(' ').filter((term) => term.length > 1);
         const haystack = normalizeThai(candidates.join(' '));
@@ -173,5 +173,10 @@ export class FaqRepository implements OnModuleInit {
       .filter((x) => x.score >= 0.18)
       .sort((a, b) => b.score - a.score)
       .slice(0, limit);
+  }
+
+  private searchablePhrases(faq: StarterFaq): string[] {
+    const builtIn = STARTER_FAQS.find((candidate) => candidate.id === faq.id);
+    return [...new Set([faq.question, ...faq.variants, ...(builtIn?.variants ?? [])])];
   }
 }
